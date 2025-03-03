@@ -130,6 +130,7 @@ elif analysis == "Associações e Correlações":
     st.write("Resumo do Modelo de Regressão:")
     st.write(model.summary())  # Exibe o resumo do modelo de regressão
 
+    
     #10 Região de Destino vs. Tempo de Entrega
     st.subheader("Região de Destino vs. Tempo de Entrega")
     fig = px.scatter(df, x="Região", y="Tempo", color="Região", title="Tempo de Entrega por Região de Destino")
@@ -139,6 +140,18 @@ elif analysis == "Associações e Correlações":
     model = ols('Tempo ~ C(Região)', data=df).fit()  # Realiza uma regressão linear
     st.write("Resumo do Modelo de Regressão:")
     st.write(model.summary())  # Exibe o resumo do modelo de regressão
+
+    # Peso da Encomenda vs. Tempo de Entrega com cores por Opinião do Cliente
+    st.subheader("Peso da Encomenda vs. Tempo de Entrega")
+    corr = df["Peso"].corr(df["Tempo"])  # Calcula a correlação entre Peso e Tempo
+    st.write(f"Correlação: {corr:.2f}")  # Exibe o valor da correlação
+
+    # Gráfico de dispersão com cores baseadas na coluna "Opinião"
+    fig = px.scatter(df, x="Peso", y="Tempo", color="Opinião", trendline="ols", 
+                 title="Relação entre Peso e Tempo de Entrega (Cores por Opinião do Cliente)")
+    st.plotly_chart(fig)  # Mostra o gráfico no aplicativo
+
+
 
 
 # Análise 7: Verificação de Metas
